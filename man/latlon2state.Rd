@@ -9,7 +9,6 @@ latlon2state(lat, lon)
 \description{
 library(sp)
 library(maps)
-library(maptools)
 The single argument to this function, pointsDF, is a data.frame in which:
 - column 1 contains the longitude in degrees (negative in the US)
 - column 2 contains the latitude in degrees

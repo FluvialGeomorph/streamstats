@@ -31,7 +31,7 @@ parameters to compute. Default: true, will return all parameters for region}
 include in response. See Feature resource for more information.
 Default: true, returns delineated basin and pourpoint}
 
-\item{crs}{string ESPSG spatial reference code. The function rgdal::showEPSG
+\item{crs}{string ESPSG spatial reference code. The function sf::st_crs
 might come in handy.}
 
 \item{simplify}{boolean    Whether to simplify returned result, defaut: true

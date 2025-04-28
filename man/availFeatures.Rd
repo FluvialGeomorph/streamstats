@@ -8,9 +8,12 @@ availFeatures(workspaceID)
 }
 \arguments{
 \item{workspaceID}{Service workspace received from watershed
-service result}
+service result.}
+}
+\value{
+a returns a collection of spatial feature names available for the
+workspace.
 }
 \description{
-returns a returns a collection of spatial feature names available for the
-workspace.
+List available features for a given workspace
 }

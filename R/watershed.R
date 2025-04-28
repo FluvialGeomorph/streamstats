@@ -12,7 +12,7 @@
 #' @param includefeatures	string	true	Comma separated list of features to
 #'  include in response. See Feature resource for more information.
 #'  Default: true, returns delineated basin and pourpoint
-#' @param crs	string ESPSG spatial reference code. The function rgdal::showEPSG
+#' @param crs	string ESPSG spatial reference code. The function sf::st_crs
 #'  might come in handy.
 #' @param simplify	boolean	Whether to simplify returned result, defaut: true
 #' @examples
@@ -23,7 +23,6 @@
 #' }
 #'
 #' @export
-
 delineateWatershed <- function(xlocation, ylocation, rcode = NULL,
                                includeparameters = c("false", "true"),
                                includeflowtypes = c("false", "true"),
@@ -61,7 +60,7 @@ delineateWatershed <- function(xlocation, ylocation, rcode = NULL,
 #' @param includefeatures	string	true	Comma separated list of features to
 #'  include in response. See Feature resource for more information.
 #'  Default: true, returns delineated basin and pourpoint
-#' @param crs	string ESPSG spatial reference code. The function rgdal::showEPSG
+#' @param crs	string ESPSG spatial reference code. The function sf::st_crs
 #'  might come in handy.
 #' @param simplify	boolean	Whether to simplify returned result, defaut: true
 #' Uses StreamStats API https://streamstats.usgs.gov/streamstatsservices/#
@@ -139,7 +138,6 @@ writeGeoJSON <- function(watershed, file, what = c("boundary", "pourpoint")) {
 #' extract part of watershed list corresponding to an individual feature collection
 #' Returns a FeatureCollection.
 #' @export
-
 pullFeatureCollection <- function(ws, what = c("boundary", "pourpoint")) {
   what <- match.arg(what)
   fc <- setNames(ws$featurecollection,
@@ -162,21 +160,18 @@ pullFeatureCollection <- function(ws, what = c("boundary", "pourpoint")) {
 #' @param what Either "boundary" or "pourpoint" describing what part of the
 #'  watershed object to write.
 #' @export
-#' @importFrom rgdal readOGR
 #'
-
+#' @importFrom sf read_sf
 toSp <- function(watershed, what = c("boundary", "pourpoint")) {
 
-  if (!requireNamespace("rgdal", quietly = TRUE))
-    stop("rgdal needed for this functionto work. Please install it.",
-         call. = FALSE)
   what <- match.arg(what)
   tpf <- tempfile(fileext = ".geojson")
+  sf::st_write()
   writeGeoJSON(watershed, file = tpf, what = what)
 
-  out <- readOGR(tpf)#, "OGRGeoJSON")
+  out <- sf:st_read(dsn = tpf)
   unlink(tpf)
-  out
+  return(out)
 }
 
 #' Convert watershed to ESRI shapefile
@@ -187,11 +182,12 @@ toSp <- function(watershed, what = c("boundary", "pourpoint")) {
 #' @param what Either "boundary" or "pourpoint" describing what part of the
 #'  watershed object to write.
 #' @export
-#' @importFrom rgdal writeOGR
+#' @importFrom sf st_as_sf st_write
 
-writeShapefile <- function(watershed, layer, dir = ".", what = c("boundary", "pourpoint")) {
+writeShapefile <- function(watershed, layer, dir = ".",
+                           what = c("boundary", "pourpoint")) {
   what <- match.arg(what)
   sp <- toSp(watershed, what = what)
-
-  writeOGR(sp, dir, layer = layer, driver = "ESRI Shapefile")
+  sf <- sf::st_as_sf(sp)
+  sf::st_write(sf, dsn = dir, layer = layer, driver = "ESRI Shapefile")
 }

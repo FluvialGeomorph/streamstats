@@ -14,18 +14,23 @@ getFeatures(
 }
 \arguments{
 \item{workspaceID}{Service workspace received from watershed
-service result}
+service result.}
 
-\item{crs}{string ESPSG spatial reference code. The function rgdal::showEPSG
-might come in handy.}
+\item{crs}{string ESPSG spatial reference code. The function
+sf::st_crs might come in handy.}
 
-\item{simplify}{boolean    Whether to simplify returned result, defaut: true}
+\item{simplify}{boolean;    Whether to simplify returned result,
+defaut: true.}
 
 \item{includefeatures}{string    true    Comma separated list of features to
-include in response. See Feature resource for more information.
-Default: true, returns delineated basin and pourpoint}
+include in response. See Feature resource for more
+information. Default: true, returns delineated
+basin and pourpoint.}
+}
+\value{
+a returns a collection of spatial feature names available for the
+         workspace.
 }
 \description{
-returns a returns a collection of spatial feature names available for the
-workspace.
+Get features for a given workspace
 }

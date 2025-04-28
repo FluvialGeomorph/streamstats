@@ -108,7 +108,6 @@ sstat_makeArgs <- function(arglist) {
 #'
 #' library(sp)
 #' library(maps)
-#' library(maptools)
 #' The single argument to this function, pointsDF, is a data.frame in which:
 #' - column 1 contains the longitude in degrees (negative in the US)
 #' - column 2 contains the latitude in degrees
@@ -119,8 +118,8 @@ latlon2state <- function(lat, lon) {
   data("stateMapEnv", package = "maps")
   states <- maps::map('state', fill=TRUE, col="transparent", plot=FALSE)
   IDs <- sapply(strsplit(states$names, ":"), function(x) x[1])
-  states_sp <- maptools::map2SpatialPolygons(states, IDs=IDs,
-                                             proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
+  states_sp <- sp::SpatialPolygons(states,
+                                   proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
   pointsDF <- data.frame(longitude = lon, latitude = lat)
   # Convert pointsDF to a SpatialPoints object
   pointsSP <- sp::SpatialPoints(pointsDF,

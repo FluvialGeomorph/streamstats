@@ -9,7 +9,7 @@ Description: Functions for delineating, visualizing, computing statistics about
     watersheds.
 License: MIT
 LazyData: TRUE
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 Suggests: testthat,
     knitr,
@@ -21,11 +21,9 @@ Imports:
     jsonlite,
     httr,
     maps,
-    maptools,
     assertthat,
-    dplyr (>= 0.7.0),
+    dplyr,
     leaflet,
-    rgdal,
     purrr,
     xml2,
     methods,
